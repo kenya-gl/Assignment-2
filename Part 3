@@ -1,5 +1,4 @@
 library(Matching)
-library(boot)
 data("PlantGrowth")
 
 levels(PlantGrowth$group) <- c(0,1,2)
