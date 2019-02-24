@@ -1,37 +1,8 @@
-library(arm)
-library(Matching)
-data('lalonde')
-
-im_dying <- glm(treat ~ . -re78, data = lalonde)
-
-summary(im_dying)
-
-treatment <- predict(im_dying, lalonde[lalonde$treat==1,])
-
-control <- predict(im_dying, lalonde[lalonde$treat==0,])
-
-hist(treatment, main = "Estimated probability of being in the ~treatment~ group",
-     xlab = "Probabilities",
-     border = "red",
-     col = "blue")
-legend(0.55, 30, legend=c("I want extra credit"),
-       col=c("blue", "blue"), lty=1:2, cex=0.8)
-     
-hist(control, main = "Estimated probability of being in the ~control~ group",
-     xlab = "Probabilities",
-     border = "blue",
-     col = "red")
-legend(0.45, 50, legend=c("I want extra credit"),
-       col=c("blue", "blue"), lty=1:2, cex=0.8)
-       
-
-##I managed to access the data but I was getting a strange error, so I could not get it to work.
-##I'm honestly too tired to make it work anymore. 
-
 library(foreign)
 foo <- read.dta("nsw.dta")
+foo <- foo[,-1]
 
-im_dying <- glm(treat ~. -data_id -re78, data = foo, family= binomial)
+im_dying <- glm(treat ~ .-re78, data = foo, family= binomial)
 
 summary(im_dying)
 
@@ -42,12 +13,10 @@ hist(treatment, main = "Estimated probability of being in the ~treatment~ group"
      xlab = "Probabilities",
      border = "red",
      col = "blue")
-legend(0.55, 30, legend=c("I want extra credit"),
+legend(0.-0.1, 80, legend=c("I want extra credit"),
        col=c("blue", "blue"), lty=1:2, cex=0.8)
 
 hist(control, main = "Estimated probability of being in the ~control~ group",
      xlab = "Probabilities",
      border = "blue",
      col = "red")
-legend(0.45, 50, legend=c("I want extra credit"),
-       col=c("blue", "blue"), lty=1:2, cex=0.8)
