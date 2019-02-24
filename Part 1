@@ -1,0 +1,23 @@
+points <- runif(999, min = 0, max = 1000)
+e <- rnorm(999, mean = 0, sd = 1)
+e <- e[e > -100 & e < 100]
+results <- 23*points + 23 + e
+
+happy <- data.frame(points, results)
+positive <- lm(results ~ points, data = happy)
+summary(positive)
+
+extra_point <- 6000
+extra_result <- -100*extra_point + 23 + sample(e, 1)
+
+new_points <- c(points, extra_point)
+new_results <- c(results, extra_result)
+
+sad <- data.frame(new_points, new_results)
+negative <- lm(new_results ~ new_points, data = sad)
+summary(negative)
+
+plot(sad, main = "POINTS VS RESULTS",
+     xlab = "Points \n ", ylab = "Results" )
+abline(positive, col = "blue")
+abline(negative, col = "red")
