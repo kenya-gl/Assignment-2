@@ -3,3 +3,8 @@ Rsqrd <- function (y, pred_y){
     cor(y, pred_y)^2
 }
 
+library(Matching)
+data("PlantGrowth")
+
+Rsqrd(PlantGrowth$weight[1:10], PlantGrowth$weight[11:20]) #control vs trt1
+Rsqrd(PlantGrowth$weight[1:10], PlantGrowth$weight[21:30]) #control vs trt2
