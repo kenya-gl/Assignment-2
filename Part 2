@@ -75,3 +75,30 @@ qre.75
 
 t(Q_bounds)
 
+
+plot(ages, bounds[1,],
+    main="Interval analyses with expected values", 
+    xlab="Age", 
+    ylab="Value of expected values", 
+    pch=19,
+    col = "red")
+legend(15, -150000, legend=c("lower bound median", "upper bound median", "lower bound for quantile", "upper bound quantile"),             col=c("red", "blue", "green", "black"), lty=1:1, cex=0.7)
+       
+par(new=TRUE)
+plot(ages,bounds[2,],axes=FALSE,
+    xlab="",
+    ylab="",
+    pch=19,
+    col = "blue")
+par(new=TRUE)
+plot(ages,Q_bounds[1,],axes=FALSE,
+    xlab="",
+    ylab="",
+    pch=17,
+    col = "green")
+par(new=TRUE)
+plot(ages,Q_bounds[2,],axes=FALSE,
+    xlab="",
+    ylab="",
+    pch=17,
+    col = "black")
