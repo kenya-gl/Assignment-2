@@ -1,0 +1,36 @@
+library(Matching)
+library(boot)
+data("PlantGrowth")
+
+levels(PlantGrowth$group) <- c(0,1,2)
+shortPlant <- PlantGrowth[PlantGrowth$group!="2", ]
+0.082 seconds
+
+B <- 1000
+result <- rep(NA, B)
+
+for(i in 1:B){
+    index.sample <- sample(1:length(shortPlant$group), replace = TRUE)
+    bbsample <- shortPlant[index.sample,]
+    hihi <- lm(weight ~ group, data = bbsample)
+    result[i] <- coef(hihi)[2]
+}
+
+
+a <- mean(result)
+s <- sd(result)
+n <- length(shortPlant$group)
+
+error <- qnorm(0.975)*s/sqrt(n)
+
+left <- a-error
+right <- a+error
+
+left
+right
+
+
+hist(result, main = "Coefficient values for ~group~",
+     xlab = "group coefficients",
+     border = "blue",
+     col = "green")
