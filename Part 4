@@ -1,10 +1,30 @@
+Rsqrd <- function(y, pred_y){
+    totSS <- sum((y - mean(y))^2) #total sum of squares
+    resSS <- sum((y - pred_y)^2) #residual sum of squares
+    R_sqrd <- 1 - (resSS / totSS) #R squared
+    return(R_sqrd)
+}
+
+library(Matching)
+data("PlantGrowth")
+levels(PlantGrowth$group) <- c(0,1,2)
+
+PlantGrowthsmall <- PlantGrowth[1:20,]
+
+hehe <- lm(weight ~ group, data = PlantGrowthsmall)
+
+predicted <- predict(hehe)
+
+Rsqrd(PlantGrowthsmall$weight, predicted)
+
+
+
+
+##ANOTHER WAY
+
 #I just did their correlation squared
 Rsqrd <- function (y, pred_y){
     cor(y, pred_y)^2
 }
 
-library(Matching)
-data("PlantGrowth")
-
-Rsqrd(PlantGrowth$weight[1:10], PlantGrowth$weight[11:20]) #control vs trt1
-Rsqrd(PlantGrowth$weight[1:10], PlantGrowth$weight[21:30]) #control vs trt2
+Rsqrd(PlantGrowthsmall$weight, predicted)
