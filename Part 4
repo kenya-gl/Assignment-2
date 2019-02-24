@@ -1,0 +1,5 @@
+#I just did their correlation squared
+Rsqrd <- function (y, pred_y){
+    cor(y, pred_y)^2
+}
+
