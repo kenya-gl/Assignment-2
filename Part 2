@@ -1,0 +1,77 @@
+library(arm)
+library(Matching)
+data('lalonde')
+
+control_lalonde <- lalonde[which(lalonde$treat ==0), ]
+
+haha <- lm(re78 ~ age + educ + re74 + re75 + educ*re74 + educ* re75 + age*re74 + age*re75 + age*age + re74*re75, data = control_lalonde)
+
+repps <- 10
+
+ages <- 17:55
+
+simulation <- sim(haha, n.sims = repps)
+
+med_re78 <- matrix(0, nrow = repps, ncol = length(ages))
+colnames(med_re78)<- c(17:55)
+med_re78 <- as.data.frame(med_re78)
+
+for(i in 1:length(ages)){
+    for(a in 1:repps){
+        edu <- median(control_lalonde$educ)
+        re.74 <- median(control_lalonde$re74)
+        re.75 <- median(control_lalonde$re75)
+        
+        med_re78[a,i] <- sum(simulation@coef[a,] * c(1, ages[i] + edu + re.74 + re.75 + edu*re.74 + edu* re.75 + ages[i]*re.74 + ages[i]*re.75 + ages[i]*ages[i] + re.74*re.75))
+    }
+}
+
+med_re78
+
+bounds <- apply(med_re78, 2, quantile, c(0.025, 0.975))
+bounds
+
+edu <- median(control_lalonde$educ)
+re.74 <- median(control_lalonde$re74)
+re.75 <- median(control_lalonde$re75)
+
+edu
+re.74
+re.75
+
+t(bounds)
+
+
+repps <- 1000
+
+ages <- 17:55
+
+simulation <- sim(haha, n.sims = repps)
+
+quan_re78 <- matrix(0, nrow = repps, ncol = length(ages))
+colnames(quan_re78)<- c(17:55)
+med_re78 <- as.data.frame(quan_re78)
+
+for(i in 1:length(ages)){
+    for(a in 1:repps){
+        qedu <- quantile(control_lalonde$educ)[4]
+        qre.74 <- quantile(control_lalonde$re74)[4]
+        qre.75 <- quantile(control_lalonde$re75)[4]
+        
+        quan_re78[a,i] <- sum(simulation@coef[a,] * c(1, ages[i] + qedu + qre.74 + qre.75 + qedu*qre.74 + qedu* qre.75 + ages[i]*qre.74 + ages[i]*qre.75 + ages[i]*ages[i] + qre.74*qre.75))
+    }
+}
+
+Q_bounds <- apply(quan_re78, 2, quantile, c(0.025, 0.975))
+Q_bounds
+
+qedu <- quantile(control_lalonde$educ)[4]
+qre.74 <- quantile(control_lalonde$re74)[4]
+qre.75 <- quantile(control_lalonde$re75)[4]
+
+qedu
+qre.74
+qre.75
+
+t(Q_bounds)
+
