@@ -33,3 +33,5 @@ hist(result, main = "Coefficient values for ~group~",
      xlab = "group coefficients",
      border = "blue",
      col = "green")
+
+confint(hihi)
